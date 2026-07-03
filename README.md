@@ -1,12 +1,12 @@
-# Space Ops Assistant
+# Creator Buddy
 
-`space-ops-assistant.skill`
+`creator-buddy.skill`
 
 「你想追的下一个热点，何必靠刷信息流」
 
 License: MIT · Agent Skills · Multi-Runtime
 
-Space Ops Assistant 是一套给内容创作者、运营、增长和自媒体作者用的运营情报 Skill 集合。
+Creator Buddy 是一套给内容创作者、运营、增长和自媒体作者用的运营情报 Skill 集合。
 
 它帮你从小红书、公众号、B站等内容平台里搜索热点、挖爆款、看评论、查竞品、找选题，把“今天写什么”从玄学变成一套可复用的数据工作流。
 
@@ -91,20 +91,20 @@ Space Ops Assistant 是一套给内容创作者、运营、增长和自媒体作
 
 ## 安装
 
-Space Ops Assistant 基于开放的 Agent Skills 协议，可在任何 skills-compatible 的 AI agent runtime 中运行。
+Creator Buddy 基于开放的 Agent Skills 协议，可在任何 skills-compatible 的 AI agent runtime 中运行。
 
 ### 方式一：一行命令（推荐，跨 runtime）
 
 打开你正在用的 agent（Claude Code、Codex、Cursor、OpenClaw、Hermes、CodeBuddy、Workbuddy、Gemini CLI、OpenCode 等），告诉它：
 
 ```text
-帮我安装这个 skill：https://github.com/zephyrwang6/space-ops-assistant
+帮我安装这个 skill：https://github.com/zephyrwang6/creator-buddy
 ```
 
 或者用通用 CLI 安装器（vercel-labs/skills，支持多 runtime）：
 
 ```bash
-npx skills add zephyrwang6/space-ops-assistant
+npx skills add zephyrwang6/creator-buddy
 ```
 
 它会自动识别你当前的 runtime 并把 skill 放到正确目录。需要指定时可加 runtime 参数，例如 `-a codex` / `-a claude-code` / `-a cursor`。
@@ -114,7 +114,7 @@ npx skills add zephyrwang6/space-ops-assistant
 克隆仓库后，把需要的 skill 目录复制到你的 runtime skills 目录：
 
 ```bash
-git clone https://github.com/zephyrwang6/space-ops-assistant.git
+git clone https://github.com/zephyrwang6/creator-buddy.git
 ```
 
 仓库结构：
@@ -220,7 +220,7 @@ python3 skills/baokuan-article-analysis/scripts/daily_sector_trends.py \
 
 ## 工作原理
 
-Space Ops Assistant 不是一个单一爬虫，而是一组内容运营 Skill。
+Creator Buddy 不是一个单一爬虫，而是一组内容运营 Skill。
 
 它把运营调研拆成四层：
 
