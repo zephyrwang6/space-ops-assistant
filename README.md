@@ -122,7 +122,7 @@ git clone https://github.com/zephyrwang6/space-ops-assistant.git
 ```text
 skills/
   xhs-hotnotes/
-  xiaohongshu-content-tools/
+  global-content-search/
   gzh-explosive-content-detector/
   baokuan-article-analysis/
 ```
@@ -169,14 +169,14 @@ python3 skills/xhs-hotnotes/scripts/fetch_xhs_hot_articles.py \
 ### 小红书 / B站 / 抖音内容分析
 
 ```bash
-node skills/xiaohongshu-content-tools/src/xiaohongshu/search-cli.js \
+node skills/global-content-search/src/xiaohongshu/search-cli.js \
   --platform xiaohongshu \
   --keyword "AI编程" \
   --limit 20
 ```
 
 ```bash
-node skills/xiaohongshu-content-tools/src/xiaohongshu/search-cli.js \
+node skills/global-content-search/src/xiaohongshu/search-cli.js \
   --platform bilibili \
   --keyword "AI编程" \
   --limit 10
@@ -187,7 +187,7 @@ node skills/xiaohongshu-content-tools/src/xiaohongshu/search-cli.js \
 ```bash
 export DOUYIN_COMMAND="/path/to/douyin-readonly-cli"
 
-node skills/xiaohongshu-content-tools/src/xiaohongshu/search-cli.js \
+node skills/global-content-search/src/xiaohongshu/search-cli.js \
   --platform douyin \
   --keyword "AI工具"
 ```
@@ -214,7 +214,7 @@ python3 skills/baokuan-article-analysis/scripts/daily_sector_trends.py \
 | Skill | 解决的问题 | 输出 |
 | --- | --- | --- |
 | `xhs-hotnotes` | 小红书热门笔记搜索、互动排序、相关性评分 | HTML 报告 + JSON |
-| `xiaohongshu-content-tools` | 小红书/B站/抖音扩展入口，查关键词、详情、评论、创作者作品 | JSON / raw 输出 + logs |
+| `global-content-search` | 全域内容搜索：小红书/B站/抖音扩展入口，查关键词、详情、评论、创作者作品；小红书支持 Guaikei API 兜底 | JSON / raw 输出 + logs |
 | `gzh-explosive-content-detector` | 公众号关键词爆款搜索 | HTML 报告 |
 | `baokuan-article-analysis` | 公众号赛道级爆款聚合、去重、排名、风格分析 | HTML 报告 + `data.json` |
 
@@ -231,9 +231,10 @@ Space Ops Assistant 不是一个单一爬虫，而是一组内容运营 Skill。
 | 报告生成 | 输出 HTML 报告、排名卡片、互动指标、标题样本 |
 | 运营判断 | 让 Agent 基于数据提炼选题方向、标题机制、内容形式和传播原因 |
 
-其中 `xiaohongshu-content-tools` 已从专用 API key 依赖改造为 Agent Reach 风格：
+其中 `global-content-search` 的访问顺序是 Agent Reach 优先，Guaikei API 最后兜底：
 
 - 小红书：优先走 Agent Reach 检测到的 `OpenCLI` / `xiaohongshu-mcp` / `xhs-cli`
+- 小红书兜底：如果 Agent Reach 搜不了，配置 `GUAIKEI_API_TOKEN` 后使用 Guaikei API
 - B站：优先走 `bili-cli` / `opencli bilibili`，否则走公开搜索/详情 API
 - 抖音：预留 `DOUYIN_COMMAND` 自定义只读 CLI
 

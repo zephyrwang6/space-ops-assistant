@@ -24,7 +24,7 @@ function printHelp() {
 
 说明:
   - 小红书详情仍建议使用搜索结果里的完整 URL，包含 xsec_token。
-  - 不再需要 GUAIKEI_API_TOKEN。
+  - 默认优先使用 Agent Reach；Agent Reach 小红书后端不可用时，可配置 GUAIKEI_API_TOKEN 兜底。
 `);
 }
 

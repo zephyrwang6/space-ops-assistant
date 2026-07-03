@@ -1,4 +1,4 @@
-# 技能完整选项说明
+# 全域内容搜索选项说明
 
 ## 1. 跨平台关键词搜索
 
@@ -84,6 +84,13 @@ node src/xiaohongshu/post-cli.js \
 - `OpenCLI`：`opencli xiaohongshu ...`
 - `xiaohongshu-mcp`：`mcporter call 'xiaohongshu....'`
 - `xhs-cli`：`xhs ...`
+- 兜底：如果以上后端不可用，且配置了 `GUAIKEI_API_TOKEN`，自动使用 Guaikei API。
+
+```bash
+export GUAIKEI_API_TOKEN="your_api_token_here"
+```
+
+Guaikei API 兜底支持小红书关键词搜索、笔记详情/评论、博主作品。
 
 ### B站
 

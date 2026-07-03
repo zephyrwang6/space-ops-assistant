@@ -24,7 +24,7 @@ function printHelp() {
 
 说明:
   - 小红书用户作品目前需要 Agent Reach 的 OpenCLI 小红书后端。
-  - 不再需要 GUAIKEI_API_TOKEN。
+  - 默认优先使用 Agent Reach；Agent Reach 小红书后端不可用时，可配置 GUAIKEI_API_TOKEN 兜底。
 `);
 }
 

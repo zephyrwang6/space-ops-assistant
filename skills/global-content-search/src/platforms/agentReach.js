@@ -1,5 +1,6 @@
 const https = require("https");
 const { spawnSync } = require("child_process");
+const guaikei = require("./guaikei");
 
 function commandExists(command) {
   const result = spawnSync("sh", ["-lc", `command -v ${command}`], {
@@ -93,7 +94,9 @@ function platformError(platform, doctor) {
       doctor.xiaohongshu && doctor.xiaohongshu.message
         ? doctor.xiaohongshu.message
         : "未发现小红书可用后端。请安装 Agent Reach 的 OpenCLI 渠道并在 Chrome 登录小红书，或配置 xiaohongshu-mcp。";
-    return new Error(message);
+    return new Error(
+      `${message}\n\n兜底方案：配置 GUAIKEI_API_TOKEN 后可使用 Guaikei API 继续搜索小红书公开数据。`,
+    );
   }
   if (platform === "douyin") {
     return new Error(
@@ -118,7 +121,7 @@ function runCustomDouyin(action, value, options) {
   };
 }
 
-async function searchXiaohongshu(keyword) {
+async function searchXiaohongshu(keyword, options = {}) {
   const doctor = getDoctor();
   const active = doctor.xiaohongshu && doctor.xiaohongshu.active_backend;
 
@@ -145,7 +148,14 @@ async function searchXiaohongshu(keyword) {
       raw: runCommand("xhs", ["search", keyword]),
     };
   }
-  throw platformError("xiaohongshu", doctor);
+  try {
+    return await guaikei.search(keyword, options);
+  } catch (error) {
+    if ((process.env.GUAIKEI_API_TOKEN || "").trim()) {
+      throw error;
+    }
+    throw platformError("xiaohongshu", doctor);
+  }
 }
 
 async function detailXiaohongshu(url, options) {
@@ -194,10 +204,17 @@ async function detailXiaohongshu(url, options) {
       raw: runCommand("xhs", ["read", url]),
     };
   }
-  throw platformError("xiaohongshu", doctor);
+  try {
+    return await guaikei.detail(url, options || {});
+  } catch (error) {
+    if ((process.env.GUAIKEI_API_TOKEN || "").trim()) {
+      throw error;
+    }
+    throw platformError("xiaohongshu", doctor);
+  }
 }
 
-async function userXiaohongshu(url) {
+async function userXiaohongshu(url, options = {}) {
   const doctor = getDoctor();
   const active = doctor.xiaohongshu && doctor.xiaohongshu.active_backend;
 
@@ -213,7 +230,14 @@ async function userXiaohongshu(url) {
       ]),
     };
   }
-  throw platformError("xiaohongshu", doctor);
+  try {
+    return await guaikei.user(url, options);
+  } catch (error) {
+    if ((process.env.GUAIKEI_API_TOKEN || "").trim()) {
+      throw error;
+    }
+    throw platformError("xiaohongshu", doctor);
+  }
 }
 
 async function searchBilibili(keyword, options) {

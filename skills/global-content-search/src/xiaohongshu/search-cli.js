@@ -29,7 +29,7 @@ function printHelp() {
   - 小红书通过 Agent Reach 检测到的 OpenCLI / xiaohongshu-mcp / xhs-cli 后端访问。
   - B站优先使用 bili-cli / OpenCLI，缺省时使用 B站公开搜索 API。
   - 抖音当前需要设置 DOUYIN_COMMAND 指向本地只读 CLI；Agent Reach 暂未提供抖音 channel。
-  - 不再需要 GUAIKEI_API_TOKEN。
+  - 默认优先使用 Agent Reach；Agent Reach 小红书后端不可用时，可配置 GUAIKEI_API_TOKEN 兜底。
 `);
 }
 
@@ -43,6 +43,9 @@ async function main() {
 
   const platform = pick(parsed, ["--platform", "-p"], "xiaohongshu");
   const keyword = pick(parsed, ["--keyword", "-k"], parsed._[0] || "");
+  const type = Number(pick(parsed, ["--type", "-t"], 0));
+  const sort = Number(pick(parsed, ["--sort", "-s"], 0));
+  const time = Number(pick(parsed, ["--time", "-i"], 0));
   const limit = Number(pick(parsed, ["--limit", "-l"], 20));
   const output = pick(parsed, ["--output", "-o"], "json");
 
@@ -58,7 +61,12 @@ async function main() {
   utils.printInfo(`数量: ${limit}`);
 
   try {
-    const result = await platformClient.search(platform, keyword, { limit });
+    const result = await platformClient.search(platform, keyword, {
+      type,
+      sort,
+      time,
+      limit,
+    });
     const finalOutput = {
       status: "success",
       platform,
