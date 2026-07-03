@@ -1,35 +1,58 @@
-# baokuan-article-analysis
+# Space Ops Assistant
 
-Fetch and analyze WeChat Official Account hot articles by sector or keywords.
+AI-powered content operations assistants for trend discovery, hot article mining, and publishing research across Chinese content platforms.
 
-The main skill instructions live in [`SKILL.md`](SKILL.md). The bundled script writes:
+This repository bundles several Codex/OpenAI-style skills that help creators and operators find high-performing topics, inspect viral patterns, and generate data-backed writing references.
 
-- `data.json`: raw structured article data
-- `report.html`: visual analysis report with KPIs, charts, ranked articles, writing style patterns, hot reasons, and writing references
+## Skills
+
+| Skill | Purpose | Main artifact |
+| --- | --- | --- |
+| `xhs-hotnotes` | Search Xiaohongshu/RedNote hot notes by keyword and rank them by relevance, popularity, and recency. | HTML report + JSON output |
+| `gzh-explosive-content-detector` | Search WeChat Official Account explosive articles by keyword. | HTML report |
+| `baokuan-article-analysis` | Analyze hot WeChat articles by sector, merge keyword groups, deduplicate results, and generate a visual report. | HTML report + `data.json` |
+
+## Repository Layout
+
+```text
+skills/
+  xhs-hotnotes/
+  gzh-explosive-content-detector/
+  baokuan-article-analysis/
+```
+
+Each skill is self-contained and includes its own `SKILL.md`, scripts, and references.
 
 ## Quick Start
 
+### Xiaohongshu hot notes
+
 ```bash
-python3 scripts/daily_sector_trends.py \
-  --sector-config references/default-sectors.json \
+export REDFOX_API_KEY="your_api_key_here"
+python3 skills/xhs-hotnotes/scripts/fetch_xhs_hot_articles.py \
+  --keyword "Codex,AI编程" \
+  --start-date 2026-06-23
+```
+
+### WeChat explosive article search
+
+```bash
+python3 skills/gzh-explosive-content-detector/scripts/fetch_gzh_trends.py \
+  --keyword "AI编程,Codex,Claude Code" \
+  --start-date 2026-06-23
+```
+
+### WeChat sector analysis
+
+```bash
+python3 skills/baokuan-article-analysis/scripts/daily_sector_trends.py \
+  --sector "AI Coding=Codex,Claude Code,AI编程" \
   --days 7 \
-  --output-dir ./output
+  --output-dir ./reports
 ```
 
-Run custom sectors:
+## Notes
 
-```bash
-python3 scripts/daily_sector_trends.py \
-  --sector 'AI Agent=AI Agent,智能体,Agent框架' \
-  --sector 'Skill=skill,Skills,AI Skill' \
-  --sector 'Claude Code=Claude Code,Codex,AI编程' \
-  --output-dir ./output
-```
-
-## Contents
-
-- `SKILL.md`: Codex skill instructions
-- `agents/openai.yaml`: short skill metadata for OpenAI agent usage
-- `references/default-sectors.json`: default sector keyword config
-- `scripts/daily_sector_trends.py`: hot article fetch and report generator
-
+- Runtime API keys must be supplied through environment variables. Do not commit local keys, cookies, raw platform tokens, or generated logs.
+- Generated reports and local caches are ignored by default.
+- Public platform data belongs to the original authors and platforms. Use this repository for research, analysis, and content planning.
