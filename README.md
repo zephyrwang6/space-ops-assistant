@@ -134,6 +134,7 @@ skills/
   global-content-search/
   gzh-explosive-content-detector/
   baokuan-article-analysis/
+  baokuan-title-generator/
 ```
 
 每个子目录都是一个独立 Skill。
@@ -161,6 +162,10 @@ skills/
 
 ```text
 找一下小红书某个博主最近发了什么，评论区在关心什么
+```
+
+```text
+这篇文章帮我起 10 个爆款标题，标好方法和风险
 ```
 
 如果你想手动运行脚本，也可以：
@@ -226,6 +231,9 @@ python3 skills/baokuan-article-analysis/scripts/daily_sector_trends.py \
 | `global-content-search` | 全域内容搜索：小红书/B站/抖音扩展入口，查关键词、详情、评论、创作者作品；小红书支持 Guaikei API 兜底 | JSON / raw 输出 + logs |
 | `gzh-explosive-content-detector` | 公众号关键词爆款搜索 | HTML 报告 |
 | `baokuan-article-analysis` | 公众号赛道级爆款聚合、去重、排名、风格分析 | HTML 报告 + `data.json` |
+| `baokuan-title-generator` | 从内容生成爆款标题：16 种方法批量出候选、逐条评分标风险、按用途分角色推荐、给 A/B 建议 | 标题矩阵 + Top 5 推荐 |
+
+> 前四个 Skill 负责「把平台上的真实数据拉回来」，`baokuan-title-generator` 负责下游的「拆完爆款之后，自己这篇该起什么标题」。方法论提炼自 100 篇科技类 10 万+ 标题样本。
 
 ## 搜索方式
 
